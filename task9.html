@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit ~ Loader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html,body{
+            width:100%;height:100%;
+        }
+
+
+        @keyframes AnimateRotate {
+            to{
+                transform: rotate(360deg);
+            } 
+        }
+
+        .loader-container {
+            background-image: conic-gradient(
+        rgba(88, 88, 17, 0),      
+        rgba(209, 209, 40, 0),   
+        rgba(209, 209, 124, 0),  
+        rgba(33, 150, 243, 0),   
+        rgba(33, 150, 243, 1) ,  
+        rgba(33, 150, 243, 1)   
+        ) ;
+    animation:AnimateRotate .7s linear infinite;
+}
+
+        .tick-img-animate{
+            animation:ScalingImage .6s linear;
+        }
+        .tick-img-animate::before{
+            animation:ScalingImage2 .6s linear;
+            animation-delay: .1s;
+        }
+        @keyframes ScalingImage2 {
+            25%{
+                transform:scale(.7);
+            }
+            50%{
+                transform:scale(1.5)
+            }
+            to{
+                transform:scale(1);
+            }
+        }
+        @keyframes ScalingImage {
+            25%{
+                transform:scale(1.2);
+            }
+            50%{
+                transform:scale(2.5);
+            }
+            to{
+                transform:scale(2);
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-800 grid place-items-center">
+    <form class="bg-white flex flex-col w-1/2 h-1/2 justify-center items-center gap-5 rounded-lg" name="form">
+
+        <label for="name" class="mt-3 text-center">Name:
+            <input type="text" id="name" placeholder="Enter Username" class="border-b border-b-black w-1/2 ml-2 px-1" required> 
+        </label>
+
+        <label for="email" class="mt-3 text-center">Email:
+            <input type="email" id="email" placeholder="Enter your email" class="border-b border-b-black w-1/2 ml-2 px-1" required> 
+        </label>
+
+        <label for="pass" class="mt-3 text-center">Password:
+            <input type="password" id="pass" placeholder="Enter password" class="border-b border-b-black w-1/2 ml-2 px-1" required> 
+        </label>
+        
+        <input type="submit" class="w-1/2 cursor-pointer bg-gray-500 hover:bg-gray-800 hover:text-white duration-500 ">
+    </form>
+
+    <!-- Loader -->
+    <div class="loader-container w-20 h-20 rounded-full grid place-items-center relative 
+    overflow-hidden z-1 hidden">
+        <div class=" cover-container h-16 w-16 bg-slate-800 rounded-full z-10"></div>
+    </div>
+
+    <!-- Image -->
+    <div class="relative right-tick w-24 h-24 absolute scale-[2] hidden before:absolute before:w-24 before:h-24 before:border before:border-white before:rounded-full">
+        <img src="right-tick.png" alt="right tick" 
+        class="w-full h-full object-contain">
+    </div>
+    
+    <script>
+        const form = document.form
+
+        form.addEventListener('submit', (event)=>{
+
+            const loader = document.querySelector('.loader-container')
+
+            event.preventDefault()
+            
+            form.classList.add('hidden')
+            loader.classList.remove('hidden')
+
+            setTimeout(()=>{
+                const tickImg = document.querySelector('.right-tick')
+
+                loader.classList.add('hidden')
+                tickImg.classList.remove("hidden", "opacity-0")
+                tickImg.classList.add('opacity-1', 'tick-img-animate')
+            }, 2000)
+        })
+    </script>
+</body>
+</html>
